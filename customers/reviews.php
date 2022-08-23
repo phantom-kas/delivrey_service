@@ -4,7 +4,7 @@
 <html lang="en">
 <?php
 include_once '../public/components.php';
-head($root,'history');
+head($root,'reviews');
 ?>
 <body class = 'v-flex fs-c'>
     <?php

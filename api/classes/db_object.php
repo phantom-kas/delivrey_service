@@ -34,6 +34,28 @@
         {
 
         }
+        public function errorMessage($msg = 'unkown error')
+        {
+            $server_result['status'] = 'error';
+            $server_result['message'] = $msg;
+            return $server_result;
+        }
+        public function p_Email($em='email',$pg = 'post',$msg = 'on email is set')
+        {
+            $em = $pg === 'get' ? $_GET[$em] : $_POST[$em];
+
+            if(isset($em))
+            { 
+                echo json_encode($this->errorMessage($msg),JSON_HEX_APOS | JSON_HEX_QUOT);  
+                exit();
+            }
+            if(empty($em))
+            {
+                echo json_encode($this->errorMessage($msg),JSON_HEX_APOS | JSON_HEX_QUOT);  
+                exit();
+            }
+            return $em;
+        }
 
         
     }

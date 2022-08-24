@@ -1,4 +1,7 @@
 <?php
+include_once '../../private/session/session.php';
+
+
      class Db_object
     {
         private $_mysqli;
@@ -40,21 +43,38 @@
             $server_result['message'] = $msg;
             return $server_result;
         }
-        public function p_Email($em='email',$pg = 'post',$msg = 'on email is set')
+        public function pg_Email($em='email',$pg = 'post',$msg = 'on email is set')
         {
-            $em = $pg === 'get' ? $_GET[$em] : $_POST[$em];
+            $var = $pg === 'get' ? $_GET[$em] : $_POST[$em];
 
-            if(isset($em))
+            if(isset($var))
             { 
                 echo json_encode($this->errorMessage($msg),JSON_HEX_APOS | JSON_HEX_QUOT);  
                 exit();
             }
-            if(empty($em))
+            if(empty($var))
             {
                 echo json_encode($this->errorMessage($msg),JSON_HEX_APOS | JSON_HEX_QUOT);  
                 exit();
             }
-            return $em;
+            return $var;
+        }
+
+        public function pg_var($em,$pg = 'post',$msg = 'all fileds must be filed')
+        {
+            $var = $pg === 'get' ? $_GET[$em] : $_POST[$em];
+
+            if(isset($var))
+            { 
+                echo json_encode($this->errorMessage($msg),JSON_HEX_APOS | JSON_HEX_QUOT);  
+                exit();
+            }
+            if(empty($var))
+            {
+                echo json_encode($this->errorMessage($msg),JSON_HEX_APOS | JSON_HEX_QUOT);  
+                exit();
+            }
+            return $var;
         }
 
         

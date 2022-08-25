@@ -9,7 +9,7 @@
         $_SESSION['token_expires'] = time() + 900;
     // $_SESSION['user_id'] = 1;
     }
-    $root = "http://localhost:1080/work%20manage/workManage";
+    $root = "http://localhost:1080/SS/delivrey_service";
     
     function checkpremission($pres)
     {
@@ -50,4 +50,6 @@
           
       }
     }
+$server_results['status'] = 'success';
+
 ?>

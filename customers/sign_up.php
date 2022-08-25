@@ -4,25 +4,50 @@
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
-</head>
+<?php
+    head($root,'sign up');
+?>
 <body class = 'mxvw v-flex c-c'>
-    
+<script>
+    function countrySelectOptions(dt)
+{
+    for (let i = 0; i < dt.length; i++) {
+      $('#Country').append(
+        `<option vlaue = '${dt[i].CID}'>${dt[i].country}</option>`
+      );
+        
+    }
+}
+
+
+function citySelectOptions(dt)
+{
+    for (let i = 0; i < dt.length; i++) {
+      $('#City').append(
+        `<option vlaue = '${dt[i].city_ID}'>${dt[i].city}</option>`
+      );
+        
+    }
+}
+
+        $(document).ready(function () {
+            serverRequest('country/getcountries','get',null,countrySelectOptions)
+            serverRequest('city/getcities','get',null,citySelectOptions)
+           
+        });
+</script>
+
 <div class = 'mxvw mt2 v-flex c-c'>
         <div id = '' class = 'mb1 cont sdw '>
-            <form>
+            <form onsubmit="serverRequest('user/register_user','post')">
                 <h1>Sign Up</h1>
                 <?php
+                    txtim('first_name');
+                    txtim('last_name');
                     txtim('email');
-                    txtim('email');
-                    txtim('email');
+                    txtim('password');
                     echo "<h2 class = 'mt2'>Address</h2>";
-                    seltxt('country');
+                    seltxt('Country');
                     seltxt('City');
                     txtim('address');
                 ?>

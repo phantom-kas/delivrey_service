@@ -1,37 +1,62 @@
 <?php
-include_once '../../private/session/session.php';
+    include_once '../../../private/session/session.php';
+    include_once '../../../private/db/db.php';
 
 
      class Db_object
     {
-        private $_mysqli;
+        protected $_mysqli;
         public $table;
         public $lim = 30;
         
-        public function decs($last)
-        {
-            return "t1.{$this->ID} < $last ORDER BY t1.{$this->ID} DESC limit {$this->lim}";
-        }
-
         public function __construct($mysqli = NULL)
         {
             $this->_mysqli = $mysqli;
         }
 
+        public function decs($last)
+        {
+            return "t1.{$this->ID} < $last ORDER BY t1.{$this->ID} DESC limit {$this->lim}";
+        }
+
+        
+
         public function selectAll()
         {
-        $server_results['status'] = 'success';
-        $server_results['has'] = false;
+        $server_result['status'] = 'success';
         $smt = $this->_mysqli->prepare("SELECT * FROM {$this->table}");
         $smt->execute();  
-
-                    if($this->_mysqli->errno !== 0)
+        if($this->_mysqli->errno === 0)
+        {
+            $results = $smt->get_result();
+            $rows = $results->fetch_all(MYSQLI_ASSOC);
+          
+            $server_result['data'] =  $rows;
+        }
+                    else
                     {
-                        $server_results['status'] = 'error';
-                    $server_results['message'] = 'MySQLi error #: ' .  $this->_mysqli->errno . ': ' . $this->_mysqli->error;
+                        $server_result['status'] = 'error';
+                    $server_result['message'] = 'MySQLi error #: ' .  $this->_mysqli->errno . ': ' . $this->_mysqli->error;
                     }
-                    return $server_results;
+                    return $server_result;
                 
+        }
+
+
+        public function selectSingle()
+        {
+            $server_result['status'] = 'success';
+          
+            $smt = $this->_mysqli->prepare("SELECT * FROM {$this->table} WHERE {$this->id} = ?");
+            $smt->bind_param('i',$this->idV);
+            $smt->execute();  
+    
+                        if($this->_mysqli->errno !== 0)
+                        {
+                            $server_result['status'] = 'error';
+                        $server_result['message'] = 'MySQLi error #: ' .  $this->_mysqli->errno . ': ' . $this->_mysqli->error;
+                        }
+                        return $server_result;
         }
         public function selecJoinUeser()
         {
@@ -47,7 +72,7 @@ include_once '../../private/session/session.php';
         {
             $var = $pg === 'get' ? $_GET[$em] : $_POST[$em];
 
-            if(isset($var))
+            if(!isset($var))
             { 
                 echo json_encode($this->errorMessage($msg),JSON_HEX_APOS | JSON_HEX_QUOT);  
                 exit();
@@ -64,7 +89,7 @@ include_once '../../private/session/session.php';
         {
             $var = $pg === 'get' ? $_GET[$em] : $_POST[$em];
 
-            if(isset($var))
+            if(!isset($var))
             { 
                 echo json_encode($this->errorMessage($msg),JSON_HEX_APOS | JSON_HEX_QUOT);  
                 exit();

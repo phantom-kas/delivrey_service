@@ -1,5 +1,6 @@
 <?php
 include '../private/db/db.php';
+include_once '../private/session/session.php';
 function head($root,$title = 'new page')
 {
     echo "
@@ -9,11 +10,16 @@ function head($root,$title = 'new page')
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>{$title}</title>
     <link rel='stylesheet' href='../assets/css/style.css'>
+    <script src='../assets/js/common_js.js'></script>
+    <script src='../assets/js/jquery.js'></script>
 </head>";
 }
 
 function txtim($name)
-{echo "
+{
+    $type =  $name === 'password' ? 'password' : 'text';
+    echo "
+     
     <div class = 'fmit v-flex c-fs '>
                             <div class = 'v-flex   mxpw c-fs fmsh-c'>
                                 <span id = '{$name}l' class = 'fmsh'>
@@ -21,7 +27,7 @@ function txtim($name)
                                 </span>
                             </div>
                             <div class = 'h-flex fs-c'>
-                                <input id = {$name} type='text' onfocus= "."sh('#{$name}l')"." onblur= "."h('#{$name}l')"." oninput="."ch('#{$name}l','#{$name}er','#{$name}')"." name = {$name}  placeholder = {$name} class = 'iprw irph' value = '' required>
+                                <input id = {$name} type= {$type} onfocus= "."sh('#{$name}l')"." onblur= "."h('#{$name}l')"." oninput="."ch('#{$name}l','#{$name}er','#{$name}')"." name = {$name}  placeholder = {$name} class = 'iprw irph' value = '' required>
                                 <span id = {$name}st>
                                     
                                 </span>
@@ -42,7 +48,7 @@ function seltxt($name)
                             </div>
                             <div class = 'h-flex fs-c'>
                                 <select id = {$name} type='text' onfocus= "."sh('#{$name}l')"." onblur= "."h('#{$name}l')"." oninput="."ch('#{$name}l','#{$name}er','#{$name}')"." name = {$name}  placeholder = {$name} class = 'iprw irph' value = '' required>
-                                    <option>Slect item</potion>
+                                    <option value = ''>Slect {$name}</potion>
                                 </select>
                                 <span id = {$name}st>
                                     

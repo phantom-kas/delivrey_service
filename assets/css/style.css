@@ -194,6 +194,10 @@ float: left;
 {
     margin-left: auto;
 }
+.mra
+{
+    margin-right: auto;
+}
 .ml1
 {
     margin-left: 1rem;
@@ -288,6 +292,14 @@ float: left;
     justify-content: center;
     padding: 1rem;
 }
+.wmc
+{
+    width: min-content;
+}
+.fsk
+{
+    flex-shrink: 1;
+}
 .nav > div
 {
     display: flex;
@@ -360,6 +372,11 @@ transition-duration: none;
 .ovfscl
 {
     overflow: scroll;
+}.imgr
+{
+    height: 40vh;
+    width: 40vh;
+    border-radius: 50%;
 }
 
 
@@ -372,6 +389,45 @@ transition-duration: none;
 
 
 
+
+
+
+.forward
+{
+    position: relative;
+    z-index: 111;
+}
+
+.closer
+{
+    position: absolute;
+    z-index: 99;
+    width: 100%;
+    height: 100%;
+    top:0;
+    left: 0;
+}
+.pop
+{
+    max-width: calc(100vw - 0.5rem);
+    
+}
+.fix
+{
+     
+    background-color: rgba(0,0,0, 0.4);
+    position: fixed;
+    z-index: 100;
+    display: none;
+    top:0;
+    left:  0;
+}
+.scrollable
+{
+    
+    white-space: nowrap;
+    overflow-y: scroll
+}
 
 
 @media screen and (max-width: 510px) 

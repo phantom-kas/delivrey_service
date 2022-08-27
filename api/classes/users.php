@@ -13,9 +13,11 @@
         public $last_name = 'last_name';
         public $first_name = 'first_name';
         public $img_src = 'img_urn';
-        public $city = 'city';
+        public $city = 'city_ID';
         public $address = 'address';
-        public $country = 'country';
+        public $country = 'CID';
+        public $PID = 'PID';
+        public $vercode = 'vercode';
         
         public $idV;
         public $emailV;
@@ -26,6 +28,8 @@
         public $cityV;
         public $addressV;
         public $countryV;
+        public $PIDV;
+        public $vercodeV;
 
 
 
@@ -56,8 +60,8 @@
                 public function getSigninfo()
                 {
                     $server_result['status'] = 'success';
-                    $smt = $this->_mysqli->prepare("SELECT * FROM `user` WHERE email = 'asdas' LIMIT 1");
-                   // $smt->bind_param('s',$this->emailV);
+                    $smt = $this->_mysqli->prepare("SELECT * FROM `user` WHERE email = ? LIMIT 1");
+                   $smt->bind_param('s',$this->emailV);
                     $smt->execute();
                     $result = $smt->get_result();
                 
@@ -137,11 +141,22 @@
         return $server_result;
         }
 
-        public function registerUser(){
-            $this->imgSrcV = "{$this->idV}.jpg";
+        public function registerUser()
+        {
             $server_result['status'] = 'success';
-            $smt = $this->_mysqli->prepare("INSERT INTO {$this->table} ({$this->email},{$this->last_name},{$this->first_name},{$this->city},{$this->address},{$this->vercode},{$this->imgSrc},{$this->country}) VALUES(?,?,?,?,?,?,?,?)");
-            $smt->bind_param('sssisssi',$this->emailV,$this->last_nameV,$this->first_nameV,$this->cityV,$this->addressV,$this->vercodeV,$this->imgSrcV,$this->countryV);
+            if(strlen($this->pasV) < 8 ) {
+               $server_result = $this->errorMessage('Sorry, but the
+               password must be at least 8 characters long. Please try
+               again.');
+               return $server_result;
+                } else {
+                // If all's well, hash the password
+                $this->pasV = password_hash($this->pasV, PASSWORD_DEFAULT);
+                }
+            
+            
+            $smt = $this->_mysqli->prepare("INSERT INTO {$this->table} ({$this->email},{$this->last_name},{$this->first_name},{$this->city},{$this->address},{$this->vercode},{$this->country},{$this->PID},{$this->pas}) VALUES(?,?,?,?,?,?,?,?,?)");
+            $smt->bind_param('sssissiis',$this->emailV,$this->last_nameV,$this->first_nameV,$this->cityV,$this->addressV,$this->vercodeV,$this->countryV,$this->PIDV,$this->pasV);
             $smt->execute();
            
             if($this->_mysqli->errno !== 0) 
@@ -239,7 +254,82 @@
     
         return $server_results;
     }
+        public function getId()
+        {
+            
+            $server_result['status'] = 'success';
+            
+            $smt = $this->_mysqli->prepare("SELECT {$this->id} FROM {$this->table} WHERE {$this->email} = ?");
+            $smt->bind_param('i',$this->emailV);
+            $smt->execute();  
 
+            if($this->_mysqli->errno === 0)
+            {
+                $results = $smt->get_result();
+                $rows = $results->fetch_all(MYSQLI_ASSOC);
+            
+                $server_result['data'] =  $rows;
+            }
+                        else
+                        {
+                            $server_result['status'] = 'error';
+                        $server_result['message'] = 'MySQLi error #: ' .  $this->_mysqli->errno . ': ' . $this->_mysqli->error;
+                        }
+                        return $server_result;
+        }
+        
+
+
+        public function getAllUsers()
+        {
+            $server_result['status'] = 'success';
+            $smt = $this->_mysqli->prepare($this->selWithUser());
+           
+            $smt->execute();
+            $result = $smt->get_result();
+        
+            if($this->_mysqli->errno === 0)
+            {  
+
+            
+                        $row = $result->fetch_all(MYSQLI_ASSOC);
+                        
+                        $server_result['data'] = $row;
+                
+            }else if($this->_mysqli->errno !== 0) 
+            {
+                $server_result =  $this->errorMessage('MySQLi error #: ' .  $this->_mysqli->errno . ': ' . $this->_mysqli->error);
+            }
+            return $server_result;
+
+        }
+
+        public function getSingleUserByID()
+        {
+            $server_result['status'] = 'success';
+            $smt = $this->_mysqli->prepare($this->selWithUser().' WHERE u.UID = ?');
+            $smt->bind_param('i', $this->idV);
+            $smt->execute();
+            $result = $smt->get_result();
+        
+            if($this->_mysqli->errno === 0)
+            {  
+
+            
+                        $row = $result->fetch_all(MYSQLI_ASSOC);
+                        
+                        $server_result['data'] = $row;
+                
+            }else if($this->_mysqli->errno !== 0) 
+            {
+                $server_result =  $this->errorMessage('MySQLi error #: ' .  $this->_mysqli->errno . ': ' . $this->_mysqli->error);
+            }
+            return $server_result;
+
+        }
+
+
+       
     }
 
 ?>

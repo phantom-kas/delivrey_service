@@ -10,12 +10,14 @@ function head($root,$title = 'new page')
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>{$title}</title>
     <link rel='stylesheet' href='../assets/css/style.css'>
-    <script src='../assets/js/common_js.js'></script>
+    
     <script src='../assets/js/jquery.js'></script>
+    <script src='../assets/js/app.js'></script>
+    <script src='../assets/js/common_js.js'></script>
 </head>";
 }
 
-function txtim($name)
+function txtim($name,$dis = null)
 {
     $type =  $name === 'password' ? 'password' : 'text';
     echo "
@@ -27,7 +29,7 @@ function txtim($name)
                                 </span>
                             </div>
                             <div class = 'h-flex fs-c'>
-                                <input id = {$name} type= {$type} onfocus= "."sh('#{$name}l')"." onblur= "."h('#{$name}l')"." oninput="."ch('#{$name}l','#{$name}er','#{$name}')"." name = {$name}  placeholder = {$name} class = 'iprw irph' value = '' required>
+                                <input id = {$name} type= {$type} onfocus= "."sh('#{$name}l')"." onblur= "."h('#{$name}l')"." oninput="."ch('#{$name}l','#{$name}er','#{$name}')"." name = {$name}  placeholder = {$name} class = 'iprw irph' value = '' required {$dis}>
                                 <span id = {$name}st>
                                     
                                 </span>

@@ -10,7 +10,7 @@
             $this->key = $key;
           $this->name = $_FILES[$this->key]['name'];
         }
-        public function uploadProfileImage($location = '../../assets/imgs/')
+        public function uploadProfileImage($location = '../../../assets/imgs/')
         {
            
             $this->location = $location;

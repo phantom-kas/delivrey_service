@@ -17,7 +17,7 @@
  
     
         <div id = '' class = 'mb1 cont sdw '>
-            <form id = 'form' onsubmit= "serverRequest('user/sigin_user');return false;">
+            <form id = 'form' onsubmit= "serverRequest('user/sigin_user','post','form',null,null,'customers/index.php');return false;">
                 <h1>Sign in</h1>
                 <?php
                     txtim('email');

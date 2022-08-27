@@ -77,12 +77,14 @@ function serverRequest(rqFile_dir,method = 'post',form = 'form',showFn1 = null,s
 {
     sttload();
     
-    dt = form !== null ? $('#'+form).serialize() : null;
+    dt = form !== null ? new FormData(document.getElementById(form)) : null;
             $.ajax({
                 type: method,
                 url: rootURL+"/api/controls/"+rqFile_dir+'.php',
                 data: dt,
                 dataType: "text",
+                contentType: false,
+                processData: false,
                 success: function (response)
                  {  
                     var res = JSON.parse(response);
@@ -104,7 +106,7 @@ function serverRequest(rqFile_dir,method = 'post',form = 'form',showFn1 = null,s
                         }
                         if(redirect !== null)
                         {
-                            window.setTimeout(`window.location='${rootURL}/${redirect}`, 50);
+                            window.setTimeout("window.location='"+rootURL+'/'+redirect+"?'", 50);
                         }
                     }
                     else 
@@ -116,3 +118,113 @@ function serverRequest(rqFile_dir,method = 'post',form = 'form',showFn1 = null,s
                 } 
             });
 }
+
+
+function server_Request(rqFile_dir,method = 'post',form = 'form',showFn1 = null,showFn2 = null,redirect = null)
+{
+    sttload();
+    
+    dt = form !== null ?  $('#'+form).serialize() : null;
+            $.ajax({
+                type: method,
+                url: rootURL+"/api/controls/"+rqFile_dir+'.php',
+                data: dt,
+                dataType: "text",
+                
+                success: function (response)
+                 {  
+                    var res = JSON.parse(response);
+                    endload();
+                    if(res.status === 'success')
+                    {
+                       
+                        if(showFn1 !==  null)
+                        {
+                            showFn1(res.data);
+                        }
+                        if(showFn2 !==  null)
+                        {
+                            showFn1(res.data);
+                        }
+                        if(res.message !== undefined)
+                        {
+                            hudError(res.message);    
+                        }
+                        if(redirect !== null)
+                        {
+                            window.setTimeout("window.location='"+rootURL+'/'+redirect+"?'", 50);
+                        }
+                    }
+                    else 
+                    {
+                        
+                        hudError(res.message);
+                        
+                    }
+                } 
+            });
+}
+
+
+
+function showPop(n)
+{
+    $('#'+n).css('transition-property','none');
+    $('#'+n).show(200).css('display','block');
+    
+}
+function twoTogle(x1,x2)
+{
+    $('#'+x1 +","+"#"+x2).css('transition-property','none');
+    $("#"+x2).fadeOut();
+    $("#"+x1).fadeIn(200);
+}
+function closePop(n=null)
+
+{
+    if(n !== null)
+    {
+    $("#"+n).hide(200);
+    }
+    else
+    {
+     
+        $("#"+event.srcElement.id).parent().hide(200);
+    }
+   
+}
+
+
+
+function countrySelectOptions(dt)
+{
+    for (let i = 0; i < dt.length; i++) {
+      $('#Country').append(
+        `<option value = ${dt[i].CID}>${dt[i].country}</option>`
+      );
+        
+    }
+}
+
+
+function citySelectOptions(dt)
+{
+    for (let i = 0; i < dt.length; i++) {
+      $('#City').append(
+        `<option value = ${dt[i].city_ID}>${dt[i].city}</option>`
+      );
+        
+    }
+}
+
+
+function selectUser(dt)
+{
+    for (let i = 0; i < dt.length; i++) {
+      $('#To_user').append(
+        `<option value = ${dt[i].UID}>${dt[i].first_name} ${dt[i].last_name}</option>`
+      );
+        
+    }
+}
+

@@ -40,6 +40,56 @@
             return $server_result; 
         }
 
+
+        public function selectDItems()
+        {
+             
+            $server_result['status'] = 'success';
+            //echo "{$this->selu()}, {$this->selu1()} {$this->selu_end()}";
+            $smt = $this->_mysqli->prepare("{$this->selu()}, {$this->selu1()} {$this->selu_end()} ");
+            //$smt->bind_param('i',$this->emailV);
+            $smt->execute();  
+
+            if($this->_mysqli->errno === 0)
+            {
+                $results = $smt->get_result();
+                $rows = $results->fetch_all(MYSQLI_ASSOC);
+            
+                $server_result['data'] =  $rows;
+            }
+                        else
+                        {
+                            $server_result['status'] = 'error';
+                        $server_result['message'] = 'MySQLi error #: ' .  $this->_mysqli->errno . ': ' . $this->_mysqli->error;
+                        }
+                        return $server_result;
+        }
+
+
+        public function selectSingleDItems()
+        {
+             
+            $server_result['status'] = 'success';
+           // echo "{$this->selu()}, {$this->selu1()} {$this->selu_end()}";
+            $smt = $this->_mysqli->prepare("{$this->selu()}, {$this->selu1()} {$this->selu_end()} WHERE i1.{$this->IID} = ?");
+            $smt->bind_param('i',$this->IIDV);
+            $smt->execute();  
+
+            if($this->_mysqli->errno === 0)
+            {
+                $results = $smt->get_result();
+                $rows = $results->fetch_all(MYSQLI_ASSOC);
+            
+                $server_result['data'] =  $rows;
+            }
+                        else
+                        {
+                            $server_result['status'] = 'error';
+                        $server_result['message'] = 'MySQLi error #: ' .  $this->_mysqli->errno . ': ' . $this->_mysqli->error;
+                        }
+                        return $server_result;
+        }
+
         }
 
 

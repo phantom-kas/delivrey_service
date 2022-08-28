@@ -8,7 +8,42 @@ head($root,'deliveries');
 ?>
 <body class = 'v-flex fs-c'>
     <script>
-        
+
+        function completeDeliveriy(dt)
+        {
+            showPop('md');
+            $('#Country').val(dt[0].country);
+                $('#City').val(dt[0].city);
+                $('#address').val(dt[0].address);
+
+        }
+        function showDeliveries(dt)
+{
+    for (let i = 0; i < dt.length; i++) {
+       
+        $('#rows').append(`
+        <div class = 'dit'>
+            <div class = 'mxpw'>
+                <img src="../assets/imgs/${dt[i].itemImg}" class = 'mxpw' alt="">
+                <div>
+                    <div class = 'h-flex fs-c mb05'>
+                        <img src = '../assets/imgs/${dt[i].img_urn}' class = 'mr1'> <p>${dt[i].first_name} ${dt[i].last_name}</p>
+                    </div>  
+                    <div class = 'h-flex fs-c mb1'>
+                    <p class = 'mr1'>${dt[i].u1first_name} ${dt[i].u1last_name}</p> <img src = '../assets/imgs/${dt[i].u1img_urn}'>
+                    </div>
+                    <form id = 'form_${dt[i].IID}'>
+                    <input type = 'hidden' name =  'IID' value = '${dt[i].IID}'>
+                    </form>
+                    <div class = 'h-flex fe-c mb1 mxpw'><button class ='bbtn btn' onclick = "server_Request('cart/getSingkeDelivryItem','get','form_${dt[i].IID}',completeDeliveriy)">Complete</button></div>
+                    <div>${dt[i].reqtime}</div>
+                </div>
+            </div>
+        </div>
+        `);
+    }
+}
+
     function onsucess(dt = null)
     {
         closePop('md');
@@ -96,22 +131,16 @@ head($root,'deliveries');
         
             <form id = 'form' class = 'cont mt2  mb1 wmc mla mra  sdw forward wbg' onsubmit="serverRequest('cart/insertItem','post','form',onsucess); return false;">
                 <h1> Deliver Item</h1>
-                <div>
-                    <div class = 'mxpw v-flex c-c mb2'><img id = 'pppp' src='../assets/imgs/nouser.jpg' class = 'imgr bdbg' alt=''/>  </div>
-                    <div>
-                        <input id = 'pp' type='file' name = 'profile_pic' required>
-                    </div>
-                </div>
+                
                 <?php
-                 seltxt('To_user');
-                    txtim('first_name','disabled');
-                    txtim('last_name','disabled');
+                seltxt('weight_class');
+                seltxt('Box_type');
+                txtim('Country','disabled');
+                txtim('City','disabled');
+                txtim('address','disabled');
                    
+                    
                    
-                    echo "<h2 class = 'mt2'>Destination Address</h2>";
-                    txtim('Country','disabled');
-                    txtim('City','disabled');
-                    txtim('address','disabled');
                 ?>
                 
                    

@@ -139,7 +139,34 @@
         public function selWithUser()
         {
             return "SELECT  c.city,CC.country,u.first_name,u.UID,  u.last_name, u.pass, u.img_urn, u.time_stamp, u.UID, u.email, u.address FROM user as u  INNER JOIN country_capital as CC  ON u.CID = CC.CID INNER JOIN cities as c on c.city_ID = u.city_ID";
-            
+        }
+
+
+        public function selu()
+        {
+            return "SELECT i1.{$this->img_src} as itemImg,i1.{$this->time_stamp} as reqtime,i1.{$this->IID}, u.first_name,u.UID,  u.last_name, u.img_urn, u.time_stamp, u.email, u.address";
+        }
+
+
+        public function selu_end()
+        {
+            return "INNER JOIN user as  u  ON i1.{$this->to_UID} = u.UID ";
+        }
+
+        public function selu1()
+        {
+            return "
+            c.city,CC.country,
+            u1.first_name as u1first_name,
+            u1.UID as uiUID,
+            u1.last_name as u1last_name, 
+            u1.img_urn as u1img_urn,
+            u1.time_stamp as u1time_stamp,  
+            u1.email as u1email, 
+            u1.address as u1address
+            FROM user as u1  INNER JOIN {$this->table} as i1  ON i1.{$this->from_UID} = u1.UID
+            INNER JOIN country_capital as CC  ON u1.CID = CC.CID INNER JOIN cities as c on c.city_ID = u1.city_ID
+            "; 
         }
 
 

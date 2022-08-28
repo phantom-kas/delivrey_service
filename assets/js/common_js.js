@@ -228,3 +228,30 @@ function selectUser(dt)
     }
 }
 
+function showDeliveries(dt)
+{
+    for (let i = 0; i < dt.length; i++) {
+       
+        $('#rows').append(`
+        <div class = 'dit'>
+            <div class = 'mxpw'>
+                <img src="../assets/imgs/${dt[i].itemImg}" class = 'mxpw' alt="">
+                <div>
+                    <div class = 'h-flex fs-c mb05'>
+                        <img src = '../assets/imgs/${dt[i].img_urn}' class = 'mr1'> <p>${dt[i].first_name} ${dt[i].last_name}</p>
+                    </div>  
+                    <div class = 'h-flex fs-c mb1'>
+                    <p class = 'mr1'>${dt[i].u1first_name} ${dt[i].u1last_name}</p> <img src = '../assets/imgs/${dt[i].u1img_urn}'>
+                    </div>
+                    <div>${dt[i].reqtime}</div>
+                </div>
+            </div>
+        </div>
+        `);
+    }
+}
+
+function claerFilter()
+{
+    $('#rows').html('');
+}

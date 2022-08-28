@@ -18,7 +18,7 @@ include_once '../../classes/uploader.php';
 
     
   $Delivery_item->time_stampV = date('y-m-d H:i:s');
-    $Delivery_item->img_srcV = 'DI'.$Delivery_item->time_stampV.'.jpg';
+    $Delivery_item->img_srcV = 'DI'.$_SESSION['user_id'].$Delivery_item->time_stampV.'.jpg';
 
     $img_src =str_replace(':','',$Delivery_item->img_srcV);  
     $Delivery_item->img_srcV = $img_src;

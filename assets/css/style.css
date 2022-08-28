@@ -428,6 +428,44 @@ transition-duration: none;
     white-space: nowrap;
     overflow-y: scroll
 }
+.dit{
+    width: 300px;
+    float: left;
+    display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+
+.dit > div{
+    width: 80%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background-color:bisque;
+}
+.dit > div >div
+{
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+}
+.dit > div >div img
+{
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+}
+.dit > div  img
+{
+    width: 100%;
+     
+}
+.dit > div >div span
+{
+    font-size: 2rem;
+}
 
 
 @media screen and (max-width: 510px) 

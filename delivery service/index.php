@@ -7,20 +7,51 @@ include_once '../public/components.php';
 head($root,'deliveries');
 ?>
 <body class = 'v-flex fs-c'>
+
+
     <script>
 
+
+function rl(dt)
+{
+    claerFilter();
+    serverRequest('cart/getCharItems','get',null,showDeliveries);
+}
         function completeDeliveriy(dt)
         {
+
+            server_Request('weight_classes/weight_class','get',null,weightClassSelectOptions)
+            server_Request('packages/getPackages_types','get',null,packages)
+            
+
+
+            
             showPop('md');
             $('#Country').val(dt[0].country);
                 $('#City').val(dt[0].city);
                 $('#address').val(dt[0].address);
-
+                $("#form > input[name = 'item_id']").val(dt[0].IID);
         }
         function showDeliveries(dt)
 {
+    let btn;
+
+    
     for (let i = 0; i < dt.length; i++) {
-       
+        if (dt[i].flag === -1  )
+    {
+        btn =` <div class = 'h-flex fe-c mb1 mxpw'><button class ='bbtn btn' onclick = "server_Request('cart/getSingkeDelivryItem','get','form_${dt[i].IID}',completeDeliveriy)">Complete</button></div>`;
+    }
+    else
+    {
+        btn = `<div><h4>Pending delivery</h4></div>
+        <div class = 'h-flex c-c mb1 mt05 mxpw'><button class ='bbtn btn' onclick = "server_Request('delevry/assign_to_delivery','POST','form_${dt[i].IID}',rl)">Assign to delivery vehicle</button></div>
+        `;
+    }
+    if (dt[i].DID !== 0)
+    {
+        btn = `<div><h4> Delivery in progress</h4></div>`;
+    }
         $('#rows').append(`
         <div class = 'dit'>
             <div class = 'mxpw'>
@@ -33,9 +64,13 @@ head($root,'deliveries');
                     <p class = 'mr1'>${dt[i].u1first_name} ${dt[i].u1last_name}</p> <img src = '../assets/imgs/${dt[i].u1img_urn}'>
                     </div>
                     <form id = 'form_${dt[i].IID}'>
-                    <input type = 'hidden' name =  'IID' value = '${dt[i].IID}'>
+                        <input type = 'hidden' name ='IID' value = '${dt[i].IID}'>
+                        <input type = 'hidden' name ='city' value = '${dt[i].city_ID}'>
+                        <input type = 'hidden' name ='country' value = '${dt[i].CID}'>
+                        <input type = 'hidden' name = 'PPID' value = '${dt[i].PPID}'>
+                       
                     </form>
-                    <div class = 'h-flex fe-c mb1 mxpw'><button class ='bbtn btn' onclick = "server_Request('cart/getSingkeDelivryItem','get','form_${dt[i].IID}',completeDeliveriy)">Complete</button></div>
+                    ${btn}
                     <div>${dt[i].reqtime}</div>
                 </div>
             </div>
@@ -78,6 +113,9 @@ head($root,'deliveries');
                         server_Request('user/getUserByID','get','to_user',showToUserInfor);
                     }
                 });
+
+
+                
             });
     </script>
 
@@ -89,11 +127,7 @@ head($root,'deliveries');
 
     servercontent();
     ?>
-<div class = 'v-flex v-flex c-c'>
-    <div class = 'pgw'>
-        <span onclick = "showPop('md')">+</span>
-    </div>
-</div>
+
 
 
 
@@ -129,18 +163,18 @@ head($root,'deliveries');
     </div>
 
         
-            <form id = 'form' class = 'cont mt2  mb1 wmc mla mra  sdw forward wbg' onsubmit="serverRequest('cart/insertItem','post','form',onsucess); return false;">
+            <form id = 'form' class = 'cont mt2  mb1 wmc mla mra  sdw forward wbg' onsubmit="serverRequest('cart/confirmdelivery','post','form',onsucess); return false;">
                 <h1> Deliver Item</h1>
-                
+                <input type = 'hidden' name = 'item_id' class = ''>
                 <?php
                 seltxt('weight_class');
-                seltxt('Box_type');
+                seltxt('Package_type');
                 txtim('Country','disabled');
                 txtim('City','disabled');
                 txtim('address','disabled');
-                   
-                    
-                   
+
+              
+                      
                 ?>
                 
                    

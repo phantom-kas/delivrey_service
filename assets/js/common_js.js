@@ -167,6 +167,7 @@ function server_Request(rqFile_dir,method = 'post',form = 'form',showFn1 = null,
 
 
 
+
 function showPop(n)
 {
     $('#'+n).css('transition-property','none');
@@ -198,6 +199,7 @@ function closePop(n=null)
 
 function countrySelectOptions(dt)
 {
+    cls('Country');
     for (let i = 0; i < dt.length; i++) {
       $('#Country').append(
         `<option value = ${dt[i].CID}>${dt[i].country}</option>`
@@ -209,6 +211,7 @@ function countrySelectOptions(dt)
 
 function citySelectOptions(dt)
 {
+    cls('City');
     for (let i = 0; i < dt.length; i++) {
       $('#City').append(
         `<option value = ${dt[i].city_ID}>${dt[i].city}</option>`
@@ -220,14 +223,40 @@ function citySelectOptions(dt)
 
 function selectUser(dt)
 {
+    cls('To_user');
     for (let i = 0; i < dt.length; i++) {
       $('#To_user').append(
         `<option value = ${dt[i].UID}>${dt[i].first_name} ${dt[i].last_name}</option>`
       );
         
+   
     }
 }
 
+
+function weightClassSelectOptions(dt)
+{
+    cls('weight_class');
+    for (let i = 0; i < dt.length; i++) {
+      $('#weight_class').append(
+        `<option value = '${dt[i].WID}'>${dt[i].min} - ${dt[i].max}   price:${dt[i].cost}</option>`
+      );
+        
+    }
+}
+
+
+
+function packages(dt)
+{
+    cls('Package_type');
+    for (let i = 0; i < dt.length; i++) {
+      $('#Package_type').append(
+        `<option value = '${dt[i].PPID}'>${dt[i].package}</option>`
+      );
+        
+    }
+}
 function showDeliveries(dt)
 {
     for (let i = 0; i < dt.length; i++) {
@@ -254,4 +283,8 @@ function showDeliveries(dt)
 function claerFilter()
 {
     $('#rows').html('');
+}
+function cls(n)
+{
+    $('#'+n).html('');
 }

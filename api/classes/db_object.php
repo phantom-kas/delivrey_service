@@ -144,7 +144,7 @@
 
         public function selu()
         {
-            return "SELECT i1.{$this->img_src} as itemImg,i1.{$this->time_stamp} as reqtime,i1.{$this->IID}, u.first_name,u.UID,  u.last_name, u.img_urn, u.time_stamp, u.email, u.address";
+            return "SELECT i1.{$this->img_src} as itemImg,i1.{$this->time_stamp} as reqtime,i1.{$this->PPID},i1.DID,i1.{$this->IID},u1.{$this->CID},u1.{$this->city}, i1.flag, u.first_name,u.UID,  u.last_name, u.img_urn, u.time_stamp, u.email, u.address";
         }
 
 

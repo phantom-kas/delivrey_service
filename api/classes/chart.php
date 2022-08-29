@@ -1,4 +1,5 @@
 <?php
+
     include_once 'db_object.php';
 
     
@@ -14,7 +15,12 @@
         public $from_UID = 'from_UID';
         public $to_UID	 = 'to_UID';
         public $img_src = 'img_src';
-
+        public $cost = 'cost_of_delivery';
+        public $flag = 'flag';
+        public $WID = 'WID';
+        public $PPID = 'PPID';
+        public $city = 'city_ID';
+        public $CID = 'CID';
 
 
         public $IIDV;
@@ -23,6 +29,10 @@
         public $from_UIDV;
         public $to_UIDV;
         public $img_srcV;
+        public $costV;
+        public $flagV;
+        public $WIDV;
+        public $PPIDV;
 
         public function addItemToBeDelivered()
         {
@@ -89,6 +99,76 @@
                         }
                         return $server_result;
         }
+
+        public function approveDelivery()
+        {
+            $server_result['status'] = 'success';
+           
+            $sql = "UPDATE {$this->table} SET {$this->flag} = 0, {$this->cost} = ?, {$this->WID} = ?, {$this->PPID} = ? WHERE {$this->IID} = ?";
+
+
+            
+        
+            $stmt = $this->_mysqli->prepare($sql);
+            $stmt->bind_param("iiii",$this->costV,$this->WIDV, $this->PPIDV, $this->IIDV);
+            $stmt->execute();
+            if($this->_mysqli->errno !== 0) {
+                $server_result =  $this->errorMessage('MySQLi error #: ' .  $this->_mysqli->errno . ': ' . $this->_mysqli->error);
+
+                }
+                else
+                {
+                    $server_result ['message'] = 'Item pending delivery';
+                }
+            return $server_result;
+        }
+        public function getCostOfDelivery()
+        {
+            $server_result['status'] = 'success';
+$sql = 'SELECT w.cost FROM weught_classes as w INNER JOIN delivery_items as di on w.WID = di.WID WHERE di.IID = ?';
+            $stmt = $this->_mysqli->prepare($sql);
+            $stmt->bind_param("i", $this->IIDV);
+            $stmt->execute();
+            if($this->_mysqli->errno === 0)
+            {
+                $results = $stmt->get_result();
+                $rows = $results->fetch_all(MYSQLI_ASSOC);
+            
+                $server_result['data'] =  $rows[0]['cost'];
+            }
+                        else
+                        {
+                            $server_result['status'] = 'error';
+                        $server_result['message'] = 'MySQLi error #: ' .  $this->_mysqli->errno . ': ' . $this->_mysqli->error;
+                        }
+                        return $server_result;
+        }
+        
+
+
+        public function addToDelivery()
+        {
+            $server_results['status'] = 'success';
+         $sql = "UPDATE {$this->table}
+         SET {$this->DID} = ?
+         WHERE {$this->IID}=?";
+        
+         $stmt = $this->_mysqli->prepare($sql);
+         $stmt->bind_param("ii",$this->DIDV, $this->IIDV);
+         $stmt->execute();
+         if($this->_mysqli->errno !== 0) {
+             $server_results['status'] = 'error';
+             $server_results['control'] = 'form';
+             $server_results['message'] = 'MySQLi error #: ' .
+            $this->_mysqli->errno . ': ' . $this->_mysqli->error;
+             }
+             else
+             {
+                $server_results['message'] = 'added to bdelivery';
+             }
+         return $server_results;
+        }
+        
 
         }
 

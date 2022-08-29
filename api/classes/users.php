@@ -78,6 +78,8 @@
                             $this->last_nameV = $row[0][$this->last_name];
                             $this->idV = $row[0][$this->id];
                             $this->img_srcV = $row[0][$this->img_src];
+                            $this->cityV = $row[0][$this->city];
+                            $this->countryV = $row[0][$this->country];
                         }
                         else
                         {
@@ -133,6 +135,8 @@
             $_SESSION[$this->first_name] = $this->first_nameV;
             $_SESSION[$this->img_src] =$this->img_srcV ;
             $_SESSION['user_id'] = $this->idV ;
+            $_SESSION['currentCity'] = $this->cityV;
+            $_SESSION['country'] = $this->countryV;
            
             
             $server_result['status'] = 'success';

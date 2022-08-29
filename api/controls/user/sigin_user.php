@@ -19,6 +19,7 @@ include_once '../../classes/users.php';
                         if($server_result['status'] === 'success')
                         {
                             $server_result = $User->signInUser();
+                          
                         }
                     }
       

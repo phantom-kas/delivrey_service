@@ -9,7 +9,10 @@ include_once '../../classes/chart.php';
 
 $delivery_item = new delivery_item($link);         
 
-$server_results = $delivery_item->selectDItems();
+
+$Where = isset($_SESSION['ad']) ? 'where 1' : "  where i1.from_UID = {$_SESSION['user_id']}";
+
+$server_results = $delivery_item->selectDItems($Where);
   
 
 

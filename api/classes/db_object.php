@@ -144,13 +144,13 @@
 
         public function selu()
         {
-            return "SELECT i1.{$this->img_src} as itemImg,i1.{$this->time_stamp} as reqtime,i1.{$this->PPID},i1.DID,i1.{$this->IID},u1.{$this->CID},u1.{$this->city}, i1.flag, u.first_name,u.UID,  u.last_name, u.img_urn, u.time_stamp, u.email, u.address";
+            return "SELECT i1.{$this->img_src} as itemImg,i1.{$this->time_stamp} as reqtime,i1.{$this->PPID},i1.DID,i1.{$this->IID},u1.{$this->CID},u1.{$this->city}, i1.flag,df.discription, u.first_name,u.UID,  u.last_name, u.img_urn, u.time_stamp, u.email, u.address";
         }
 
 
         public function selu_end()
         {
-            return "INNER JOIN user as  u  ON i1.{$this->to_UID} = u.UID ";
+            return "INNER JOIN user as  u  ON i1.{$this->from_UID} = u.UID ";
         }
 
         public function selu1()
@@ -164,8 +164,9 @@
             u1.time_stamp as u1time_stamp,  
             u1.email as u1email, 
             u1.address as u1address
-            FROM user as u1  INNER JOIN {$this->table} as i1  ON i1.{$this->from_UID} = u1.UID
+            FROM user as u1  INNER JOIN {$this->table} as i1  ON i1.{$this->to_UID} = u1.UID
             INNER JOIN country_capital as CC  ON u1.CID = CC.CID INNER JOIN cities as c on c.city_ID = u1.city_ID
+            INNER JOIN delivry_flag as df on df.DFID = i1.flag
             "; 
         }
 

@@ -14,9 +14,8 @@ function hudError(error)
 function sttload()
 {
     $("button , input[type  = 'submit]").prop('disabled',true);
-    $('#loader-c').addClass('loader');
-   
-    
+    $("button").prop('disabled',true);
+    $('#loader-c').addClass('loader');   
 }
 
 
@@ -50,7 +49,7 @@ function ch(n,x,d)
 
 function endload()
     {
-        $("button , input[type  = 'submit]").prop('disabled',false);
+        $("button").prop('disabled',false);
         $('#loader-c').removeClass('loader');
     }
 
@@ -272,6 +271,7 @@ function showDeliveries(dt)
                     <div class = 'h-flex fs-c mb1'>
                     <p class = 'mr1'>${dt[i].u1first_name} ${dt[i].u1last_name}</p> <img src = '../assets/imgs/${dt[i].u1img_urn}'>
                     </div>
+                    <div class = 'mb05'><h4>${dt[i].discription}</h4></div>
                     <div>${dt[i].reqtime}</div>
                 </div>
             </div>
@@ -284,7 +284,7 @@ function claerFilter()
 {
     $('#rows').html('');
 }
-function cls(n)
+function cls(n = 'rows')
 {
     $('#'+n).html('');
 }

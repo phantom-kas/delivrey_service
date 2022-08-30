@@ -51,12 +51,14 @@
         }
 
 
-        public function selectDItems()
+        public function selectDItems($Where)
         {
              
             $server_result['status'] = 'success';
             //echo "{$this->selu()}, {$this->selu1()} {$this->selu_end()}";
-            $smt = $this->_mysqli->prepare("{$this->selu()}, {$this->selu1()} {$this->selu_end()} ");
+            $sql = "{$this->selu()}, {$this->selu1()} {$this->selu_end()} {$Where} ORDER BY i1.IID DESC ";
+
+            $smt = $this->_mysqli->prepare($sql);
             //$smt->bind_param('i',$this->emailV);
             $smt->execute();  
 
@@ -104,7 +106,7 @@
         {
             $server_result['status'] = 'success';
            
-            $sql = "UPDATE {$this->table} SET {$this->flag} = 0, {$this->cost} = ?, {$this->WID} = ?, {$this->PPID} = ? WHERE {$this->IID} = ?";
+            $sql = "UPDATE {$this->table} SET {$this->flag} = 1, {$this->cost} = ?, {$this->WID} = ?, {$this->PPID} = ? WHERE {$this->IID} = ?";
 
 
             
@@ -122,6 +124,7 @@
                 }
             return $server_result;
         }
+
         public function getCostOfDelivery()
         {
             $server_result['status'] = 'success';
@@ -144,7 +147,39 @@ $sql = 'SELECT w.cost FROM weught_classes as w INNER JOIN delivery_items as di o
                         return $server_result;
         }
         
-
+ public function getdelevryCost()
+        {
+            $server_result['status'] = 'success';
+            $sql = 'SELECT w.cost FROM weught_classes as w  WHERE w.WID = ?';
+            $stmt = $this->_mysqli->prepare($sql);
+            $stmt->bind_param("i", $this->WIDV);
+            $stmt->execute();
+            if($this->_mysqli->errno === 0)
+            {
+                $results = $stmt->get_result();
+               
+            
+                if( $results->num_rows > 0)
+                {
+                    
+                    $rows = $results->fetch_all(MYSQLI_ASSOC);
+                     $server_result['data'] =  $rows[0]['cost'];
+                }
+                else
+                {
+                    $server_result['status'] = 'error';
+                    $server_result['message'] = 'unknown weight class';
+                   
+                }
+               
+            }
+                        else
+                        {
+                            $server_result['status'] = 'error';
+                        $server_result['message'] = 'MySQLi error #: ' .  $this->_mysqli->errno . ': ' . $this->_mysqli->error;
+                        }
+                        return $server_result;
+        }
 
         public function addToDelivery()
         {
@@ -169,6 +204,77 @@ $sql = 'SELECT w.cost FROM weught_classes as w INNER JOIN delivery_items as di o
          return $server_results;
         }
         
+        
+
+        public function reportDelivered()
+        {
+            $server_results['status'] = 'success';
+            $sql = "UPDATE {$this->table}
+            SET {$this->flag} = 3
+            WHERE {$this->IID}=?";
+           
+            $stmt = $this->_mysqli->prepare($sql);
+            $stmt->bind_param("i", $this->IIDV);
+            $stmt->execute();
+            if($this->_mysqli->errno !== 0) {
+                $server_results['status'] = 'error';
+                $server_results['control'] = 'form';
+                $server_results['message'] = 'MySQLi error #: ' .
+               $this->_mysqli->errno . ': ' . $this->_mysqli->error;
+                }
+                else
+                {
+                   $server_results['message'] = 'added to bdelivery';
+                }
+            return $server_results;
+        }
+
+        public function reportDamaged()
+        {
+            $server_results['status'] = 'success';
+            $sql = "UPDATE {$this->table}
+            SET {$this->flag} = -3
+            WHERE {$this->IID}=?";
+           
+            $stmt = $this->_mysqli->prepare($sql);
+            $stmt->bind_param("i", $this->IIDV);
+            $stmt->execute();
+            if($this->_mysqli->errno !== 0) {
+                $server_results['status'] = 'error';
+                $server_results['control'] = 'form';
+                $server_results['message'] = 'MySQLi error #: ' .
+               $this->_mysqli->errno . ': ' . $this->_mysqli->error;
+                }
+                else
+                {
+                   
+                }
+            return $server_results;
+        }
+        public function getUserBil($where = 'where 1')
+        {
+            $server_result['status'] = 'success';
+            //echo "{$this->selu()}, {$this->selu1()} {$this->selu_end()}";
+            $sql = "SELECT u.first_name ,u.last_name ,u.Bill ,di.cost_of_delivery,di.to_UID,u1.address,di.time_stamp from user as u INNER JOIN delivery_items as di on u.UID = di.to_UID inner join user as u1 on di.to_UID = u1.UID  {$where}";
+          
+            $smt = $this->_mysqli->prepare($sql);
+            //$smt->bind_param('i',$this->emailV);
+            $smt->execute();  
+
+            if($this->_mysqli->errno === 0)
+            {
+                $results = $smt->get_result();
+                $rows = $results->fetch_all(MYSQLI_ASSOC);
+            
+                $server_result['data'] =  $rows;
+            }
+                        else
+                        {
+                            $server_result['status'] = 'error';
+                        $server_result['message'] = 'MySQLi error #: ' .  $this->_mysqli->errno . ': ' . $this->_mysqli->error;
+                        }
+                        return $server_result;
+        }
 
         }
 

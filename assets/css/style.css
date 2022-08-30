@@ -305,8 +305,22 @@ float: left;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items:center ;
+    align-items:flex-start ;
     width: calc(100% - var(--pagemargin));
+}
+.nav a
+{
+    flex-wrap: 1;
+    flex-shrink: 2;
+   color: black;
+   border-radius: 5px;
+    padding: 1rem 0.2rem;
+}
+.nav a:hover
+{
+    color: white;
+    background: rgb(72, 72, 72);  
+
 }
 .nav > div > div
 {
@@ -378,6 +392,17 @@ transition-duration: none;
     width: 40vh;
     border-radius: 50%;
 }
+.imgsq
+{
+   
+    width: 40vh;
+   
+}
+.glowOrange:hover
+{
+    color: #f72;
+}
+
 
 
 
@@ -407,10 +432,35 @@ transition-duration: none;
     top:0;
     left: 0;
 }
+.cl
+{
+    color: red;
+    padding: 0.5rem;
+}
+.cl:hover
+{
+    color: white;
+    background-color: red;
+}
 .pop
 {
-    max-width: calc(100vw - 0.5rem);
+   width: 100vw
     
+}
+.plus
+{
+    color:black;
+    padding: 0.5rem;
+    width: 4rem;
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.plus:hover
+{
+    color: rgb(45, 45, 45);
+    background-color: rgb(162, 162, 162);
 }
 .fix
 {
@@ -457,6 +507,39 @@ transition-duration: none;
     height: 3rem;
     border-radius: 50%;
 }
+
+
+.loader{
+    padding: 1rem;
+    position: fixed;
+    top: 0.1rem;
+    right: 2rem;
+    display: flex;
+    transition-property: none;
+    z-index: 999999999;
+}
+.loader > div {
+    transition-property: none;
+    border: 3px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 6px solid black;
+    width: 3rem;
+    height: 3rem;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 0.7s linear infinite;
+}
+@keyframes spin{
+    0%{ transform: rotate(0deg);}
+100% { transform: rotate(360deg);}}
+
+
+
+.f1{
+    font-size: 1rem;
+}
+.f07{
+    font-size: 0.7rem;
+}
 .dit > div  img
 {
     width: 100%;
@@ -467,6 +550,26 @@ transition-duration: none;
     font-size: 2rem;
 }
 
+
+
+
+.table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    
+    border: 1px solid #ddd;
+  }
+  
+  .table th, .table td {
+    text-align: left;
+    padding: 8px;
+    
+  }
+  .table td
+  {
+    font-size: 0.75rem;
+  }
+   tr:nth-child(even){background-color: #f2f2f2}
 
 @media screen and (max-width: 510px) 
 {
@@ -485,5 +588,12 @@ transition-duration: none;
     :root 
     {
         --pagemargin : 2rem;
+    }
+}
+@media screen and (max-width: 430px) 
+{
+    .iprw
+    {
+        width: 80vw;
     }
 }

@@ -18,7 +18,6 @@ $P->idV = $D->pg_var('PPID','post','error no package type specified');;
 $D->from_city_IDV = $_SESSION['currentCity'];
 
 if ($_SESSION['country'] == $D->countryV )
-
 {
 
  $class = 'B';
@@ -43,7 +42,9 @@ else
             if($server_result['status'] === 'success')
             {
                 $D->idV =  $DI->DIDV ;
+                $server_result = $D->updateNumItemsAdd();
             $server_result = $D->updateDelevryWeight($extraV);
+
             }
           
         }

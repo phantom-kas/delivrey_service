@@ -2,18 +2,11 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
-
-
 <?php
 include_once '../public/components.php';
-
- if(isset($_SESSION['user_id']) && !isset($_SESSION['ad'])):
-?>
-
-<?php
 head($root,'history');
 ?>
+
 
 
 <body class = 'v-flex fs-c'>
@@ -37,6 +30,10 @@ head($root,'history');
   
     <table id = 'rows' class = 'table mxpw'>
         <tr>
+        <th>
+                From user
+            </th>
+            
             <th>
                 Destination address
             </th>
@@ -63,6 +60,10 @@ function cls()
 {$('#rows').html(`
     <tr>
             <th>
+                From user
+            </th>
+            
+            <th>
                 Destination address
             </th>
             <th>
@@ -83,6 +84,9 @@ function showbill(dt)
        $('#rows').append(`
        <tr>
             <td>
+                ${dt[i].first_name} ${dt[i].last_name}
+            </td>
+            <td>
                $ ${dt[i].address}
             </td>
             <td>
@@ -100,7 +104,7 @@ function showbill(dt)
         Total bill :
        </th>
 
-            <th colspan = '2'>
+            <th colspan = '3'>
            $${sum}
             </th>
         </tr>
@@ -111,18 +115,4 @@ function showbill(dt)
      
 </script>
 </body>
-<?php
- elseif(isset($_SESSION['ad'])):
-$url = "$root/delivery%20service/index.php";
- echo   "<meta http-equiv='refresh' content='0;{$url}'>";
-?>
-
-
-<?php
- else:
-?>
-sadasd
-<?php
- endif;
-?>
 </html>

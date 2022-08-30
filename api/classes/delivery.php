@@ -89,4 +89,49 @@
                 }
             return $server_results;
         }
+        public function updateNumItemsAdd()
+        {
+            $server_results['status'] = 'success';
+            $sql = "UPDATE {$this->table}
+            SET {$this->num_i} = {$this->num_i} + 1
+            WHERE {$this->id}=?";
+            
+            $stmt = $this->_mysqli->prepare($sql);
+            $stmt->bind_param("i", $this->idV);
+            $stmt->execute();
+            if($this->_mysqli->errno !== 0) {
+                $server_results['status'] = 'error';
+                $server_results['control'] = 'form';
+                $server_results['message'] = 'MySQLi error #: ' .
+               $this->_mysqli->errno . ': ' . $this->_mysqli->error;
+                }
+                else
+                {
+                   $server_results['message'] = 'added to delivery';
+                }
+            return $server_results;
+        }
+
+        public function removeit()
+        {
+            $server_results['status'] = 'success';
+            $sql = "UPDATE {$this->table}
+            SET {$this->num_i} = {$this->num_i} - 1
+            WHERE {$this->id}=?";
+            
+            $stmt = $this->_mysqli->prepare($sql);
+            $stmt->bind_param("i", $this->idV);
+            $stmt->execute();
+            if($this->_mysqli->errno !== 0) {
+                $server_results['status'] = 'error';
+                $server_results['control'] = 'form';
+                $server_results['message'] = 'MySQLi error #: ' .
+               $this->_mysqli->errno . ': ' . $this->_mysqli->error;
+                }
+                else
+                {
+                   $server_results['message'] = 'added to delivery';
+                }
+            return $server_results;
+        }
     }

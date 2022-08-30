@@ -18,6 +18,8 @@
         public $country = 'CID';
         public $PID = 'PID';
         public $vercode = 'vercode';
+        public $ad = 'ad';
+        public $total_cost = 'total_cost';
         
         public $idV;
         public $emailV;
@@ -30,6 +32,7 @@
         public $countryV;
         public $PIDV;
         public $vercodeV;
+        public $adV;
 
 
 
@@ -80,6 +83,7 @@
                             $this->img_srcV = $row[0][$this->img_src];
                             $this->cityV = $row[0][$this->city];
                             $this->countryV = $row[0][$this->country];
+                            $this->adV =  $row[0][$this->ad];
                         }
                         else
                         {
@@ -137,6 +141,10 @@
             $_SESSION['user_id'] = $this->idV ;
             $_SESSION['currentCity'] = $this->cityV;
             $_SESSION['country'] = $this->countryV;
+            if( $this->adV > -1)
+            {
+                $_SESSION['ad'] = $this->adV;
+            }
            
             
             $server_result['status'] = 'success';
@@ -330,6 +338,66 @@
             }
             return $server_result;
 
+        }
+        public function updateCost($sum)
+        {
+            $server_results['status'] = 'success';
+            $sql = "UPDATE {$this->table}
+            SET {$this->total_cost} = {$this->total_cost} + ?
+            WHERE {$this->id}=?";
+            $stmt = $this->_mysqli->prepare($sql);
+            $stmt->bind_param("ii", $sum,$this->idV,);
+            $stmt->execute();
+            if($this->_mysqli->errno !== 0) {
+                $server_results['status'] = 'error';
+                $server_results['control'] = 'form';
+                $server_results['message'] = 'MySQLi error #: ' .
+               $this->_mysqli->errno . ': ' . $this->_mysqli->error;
+                }
+            return $server_results;
+        }
+
+        public function updateNumdeliveries()
+        {
+            $server_results['status'] = 'success';
+            $sql = "UPDATE {$this->table}
+            SET total_deliveries = total_deliveries + 1
+            WHERE {$this->id}=?";
+            $stmt = $this->_mysqli->prepare($sql);
+            $stmt->bind_param("i",$this->idV,);
+            $stmt->execute();
+            if($this->_mysqli->errno !== 0) {
+                $server_results['status'] = 'error';
+                $server_results['control'] = 'form';
+                $server_results['message'] = 'MySQLi error #: ' .
+               $this->_mysqli->errno . ': ' . $this->_mysqli->error;
+                }
+            return $server_results;
+        }
+
+
+        public function getUsers($sort)
+        {
+        $server_result['status'] = 'success';
+        $sql = "SELECT first_name, last_name img_urn, address, total_cost ,total_deliveries,time_stamp FROM {$this->table} {$sort}";
+           
+        $smt = $this->_mysqli->prepare($sql);
+       
+        $smt->execute();  
+        if($this->_mysqli->errno === 0)
+        {
+            $results = $smt->get_result();
+            $rows = $results->fetch_all(MYSQLI_ASSOC);
+          
+            $server_result['data'] =  $rows;
+        }
+                    else
+                    {
+                        $server_result['status'] = 'error';
+                    $server_result['message'] = 'MySQLi error #: ' .  $this->_mysqli->errno . ': ' . $this->_mysqli->error;
+                    }
+                    return $server_result;
+                
         }
 
 

@@ -31,6 +31,7 @@ function rl(dt)
                 $('#City').val(dt[0].city);
                 $('#address').val(dt[0].address);
                 $("#form > input[name = 'item_id']").val(dt[0].IID);
+                $('#fUID').val(dt[0].UID);
         }
         function showDeliveries(dt)
 {
@@ -42,6 +43,7 @@ function rl(dt)
     {
         btn =` <div class = 'h-flex fe-c mb1 mxpw'><button class ='bbtn btn' onclick = "server_Request('cart/getSingkeDelivryItem','get','form_${dt[i].IID}',completeDeliveriy)">Complete</button></div>`;
     }
+    
     else
     {
         btn = `<div><h4>Pending delivery</h4></div>
@@ -51,6 +53,14 @@ function rl(dt)
     if (dt[i].DID !== 0)
     {
         btn = `<div><h4> Delivery in progress</h4></div>`;
+    }
+    if (dt[i].flag === 3)
+    {
+        btn =` <div class = 'h-flex fe-c mb1 mxpw'><h4>Item delivered</h4></div>`;
+    }
+    if (dt[i].flag === -3)
+    {
+        btn =` <div class = 'h-flex fe-c mb1 mxpw'><h4>Damaged</h4></div>`;
     }
         $('#rows').append(`
         <div class = 'dit'>
@@ -99,7 +109,7 @@ function rl(dt)
                 $('#Country').val(dt[0].country);
                 $('#City').val(dt[0].city);
                 $('#address').val(dt[0].address);
-              
+                
             }
 
 
@@ -164,7 +174,10 @@ function rl(dt)
 
         
             <form id = 'form' class = 'cont mt2  mb1 wmc mla mra  sdw forward wbg' onsubmit="serverRequest('cart/confirmdelivery','post','form',onsucess); return false;">
-                <h1> Deliver Item</h1>
+            <div class = 'mxpw h-flex fe-c'>
+                <h4 class = 'cl' onclick="closePop('md')" >X</h4>
+            </div>
+            <h1> Deliver Item</h1>
                 <input type = 'hidden' name = 'item_id' class = ''>
                 <?php
                 seltxt('weight_class');
@@ -179,7 +192,7 @@ function rl(dt)
                 
                    
                       
-                   
+                   <input type = 'hidden' id = 'fUID'name = 'UID'>
                 <div class = 'v-flex c-c mt1'>
                     <input type="submit" class = 'obtn btn'>
                 </div>

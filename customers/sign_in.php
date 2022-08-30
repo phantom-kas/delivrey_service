@@ -24,13 +24,31 @@
                     txtim('password');
                 ?>
                
+              <input type = 'hidden' id = 'ut' name = 'ut' value = ''>
+
                 <div class = 'v-flex c-c mt1'>
-                    <input type="submit" class = 'obtn btn'>
+                    <input type="submit" name = ''  onclick="$('#ut').val('ad')" value = 'Sign in as Admin' class = 'obtn btn'>
+                </div>
+                
+                <div class = 'v-flex c-c mt1'>
+                    <input type="submit" name = '' onclick="$('#ut').val('od')" value  = 'Sign in'class = 'obtn btn'>
+                </div>
+
+                <div class = 'v-flex c-c mt1 f07'>
+                   <span>Don't have an account?</span>
+                   <a href = '<?php echo $root?>/customers/sign_up.php' class = 'glowOrange'>Register</a>
                 </div>
 
                
             </form>
         </div>
     
+        <div id = 'loader-c'>
+<div>
+</div>
+</div>
+
+</div>
 </body>
+
 </html>

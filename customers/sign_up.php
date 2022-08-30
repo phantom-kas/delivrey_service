@@ -31,18 +31,7 @@ function citySelectOptions(dt)
 }
 
         $(document).ready(function () {
-            $('input[name = PID]').change(function (e) { 
-                e.preventDefault();
-                if($('input[name = PID]:checked').val() === '1')
-                {
-                    $('#cc-c').show();
-                  
-                }
-                else
-                {
-                    $('#cc-c').hide();
-
-                }
+           
                 
             });
 
@@ -66,12 +55,12 @@ function citySelectOptions(dt)
             
         });
            
-        });
+    ;
 </script>
 
 <div class = 'mxvw mt2 v-flex c-c'>
         <div id = '' class = 'mb1 cont sdw '>
-            <form id = 'form' onsubmit="serverRequest('user/register_user','post'); return false;">
+            <form id = 'form' onsubmit="serverRequest('user/register_user','post','form',null,null,'Customers/sign_in.php'); return false;">
                 <h1>Sign Up</h1>
                 <div>
                     <div class = 'mxpw v-flex c-c mb2'><img id = 'pppp' src='../assets/imgs/nouser.jpg' class = 'imgr bdbg' alt=''/>  </div>
@@ -95,7 +84,7 @@ function citySelectOptions(dt)
                     <div>
                         <label class = 'mr2'>Monthly suscribtion <input type="radio" name="PID" value = '1' id=""></label>
                         <label>On delivery <input type="radio" name="PID" value = '2' id=""></label>
-                    <div class = 'ndis' id = 'cc-c'>
+                    <div class = '' id = 'cc-c'>
                         <?php
                             txtim('Creadit_card_number');
                         ?>
@@ -108,6 +97,13 @@ function citySelectOptions(dt)
                
             </form>
         </div>
+</div>
+
+<div id = 'loader-c'>
+<div>
+</div>
+</div>
+
 </div>
     
 </body>

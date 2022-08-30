@@ -64,19 +64,53 @@ function seltxt($name)
 function nav($root)
 {
     echo "
+    <div id = 'loader-c'>
+<div>
+</div>
+</div>
+
+</div>
+
+
     <div id = '' class = 'nav mt1 mb1 cont mxvw'>
     <div>
-        <a href = 'index.php'>
-            Shop
+       
+       
+       
+       ";
+       if(isset($_SESSION['ad']))
+       {
+        echo "
+        <a href = '{$root}/delivery%20service/index.php'>
+        Delivery
         </a>
-        <a href = 'make_delivery.php'>
-            Delivery
+         <a href = '{$root}/delivery%20service/delivery_log.php'>
+        Delivery logs
+        </a>";
+       }
+       
+       if(!isset($_SESSION['ad']))
+       {
+        echo " 
+        <a href = '{$root}/customers/index.php'>
+        Delivery
         </a>
-        <a href = 'history.php'>
-            History
-        </a>
-        <a href =  'Profile.php'>
-            Profile
+
+        <a href = '{$root}/delivery%20service/history.php'>
+        Bill
+    </a>";
+       }
+       if(isset($_SESSION['ad']))
+       {
+        echo " <a href = ' {$root}/delivery%20service/users.php'>
+        users
+        </a>";
+
+       
+       }
+       echo"
+       <a href = ' {$root}/signout.php'>
+        Sign out
         </a>
         
     </div>
